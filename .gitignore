@@ -1,6 +1,10 @@
 # Compiled files
 *.tfstate
 *.tfstate.backup
+*.plan
 
 # Module directory
 .terraform/
+
+# variable values file
+*.tfvars
