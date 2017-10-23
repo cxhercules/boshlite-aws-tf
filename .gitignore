@@ -8,3 +8,6 @@
 
 # variable values file
 *.tfvars
+
+# Mac files
+.DS_Store

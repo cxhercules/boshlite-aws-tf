@@ -3,15 +3,7 @@ provider "aws" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("scripts/set_bosh_hosts.sh")}"
-}
-
-data "template_file" "cf_script" {
-  template = "${file("templates/setup_boshlite_cf.tpl")}"
-
-  vars {
-    public_ip_address = "${aws_instance.boshlite.public_ip}"
-  }
+  template = "${file("scripts/prep_bosh_n_cf.sh")}"
 }
 
 resource "aws_instance" "boshlite" {
@@ -35,25 +27,4 @@ resource "aws_instance" "boshlite" {
 resource "aws_key_pair" "boshkey" {
   key_name   = "${var.prefix}${var.key_name}"
   public_key = "${var.pub_key}"
-}
-
-resource "null_resource" "create_script" {
-  # connect to our boshlite instance
-  connection {
-    user     = "ubuntu"
-    host = "${aws_instance.boshlite.public_ip}"
-  }
-
-  # Creates script that is ready to be executed with public ip updated
-  provisioner "file" {
-    destination = "/home/ubuntu/kickoff_cf_setup.sh"
-    content     = "${data.template_file.cf_script.rendered}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /home/ubuntu/kickoff_cf_setup.sh",
-      "chown ubuntu /home/ubuntu/kickoff_cf_setup.sh",
-    ]
-  }
 }
