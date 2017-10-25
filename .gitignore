@@ -11,3 +11,7 @@
 
 # Mac files
 .DS_Store
+
+# Workspace
+workspace/*
+!workspace/.gitkeep
