@@ -1,9 +1,9 @@
 output "boshlite_ip" {
-  value = "${aws_instance.boshlite.public_ip}"
+  value = "${aws_eip.boshlite.public_ip}"
 }
 
 output "boshlite_uri" {
-  value = "https://${aws_instance.boshlite.public_ip}.nip.io"
+  value = "https://${aws_eip.boshlite.public_ip}.nip.io"
 }
 
 
